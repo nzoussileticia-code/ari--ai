@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ari AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-white: #ffffff;
+    --accent-blue: #2563eb;
+    --text-main: #0f172a;
+    --text-dim: #64748b;
+    --ui-card: #ffffff;
+    --border: #e2e8f0;
+    --success: #10b981;
+  }
+  html { background: #ffffff; }
+  body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background: var(--bg-white); color: var(--text-main); overflow-x: hidden; }
+  .container { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; padding: 60px 20px; width: 100%; box-sizing: border-box; perspective: 2000px; max-width: 1400px; margin: 0 auto; }
+  .content-left { flex: 1; min-width: 320px; max-width: 520px; padding: 20px; }
+  h1 { font-size: 3.2rem; font-weight: 800; margin: 0; line-height: 1.1; letter-spacing: -1.5px; }
+  .logo-blue { color: var(--accent-blue); display: block; margin-bottom: 10px; font-size: 2.8rem; }
+  .tagline { font-size: 1.1rem; color: var(--text-dim); margin: 25px 0 40px 0; line-height: 1.5; }
+  .feature-item { display: flex; align-items: flex-start; margin-bottom: 24px; }
+  .icon-box { background: rgba(37, 99, 235, 0.1); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 12px; margin-right: 16px; color: var(--accent-blue); font-size: 1.2rem; flex-shrink: 0; }
+  .feature-text h3 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+  .feature-text p { margin: 4px 0 0 0; color: var(--text-dim); font-size: 0.9rem; }
+  .waitlist-section { margin-top: 40px; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .btn-waitlist { display: inline-block; background: var(--accent-blue); color: white; padding: 18px 40px; border-radius: 14px; font-weight: 700; text-decoration: none; font-size: 1.1rem; transition: all 0.2s ease; box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.3); }
+  .btn-waitlist:hover { transform: translateY(-2px); box-shadow: 0 15px 25px -5px rgba(37, 99, 235, 0.4); background: #1d4ed8; }
+  .btn-signup { display: inline-flex; align-items: center; background: var(--accent-blue); color: #fff; border: none; cursor: pointer; font-family: inherit; padding: 14px 28px; border-radius: 14px; font-weight: 700; font-size: 1.05rem; transition: background 0.2s ease; }
+  .btn-signup:hover { background: #1d4ed8; }
+  .btn-demo { display: inline-flex; align-items: center; background: #fff; color: var(--accent-blue); border: 2px solid var(--accent-blue); cursor: pointer; font-family: inherit; padding: 12px 28px; border-radius: 14px; font-weight: 700; font-size: 1.05rem; transition: background 0.2s ease; }
+  .btn-demo:hover { background: #eff6ff; }
+  .ipad-wrapper { flex: 1.2; min-width: 350px; width: 100%; max-width: 750px; transform: rotateY(-22deg) rotateX(6deg) rotateZ(1deg); transition: transform 0.8s ease; position: relative; margin: 20px auto; }
+  .ipad-wrapper:hover { transform: rotateY(-10deg) rotateX(3deg) rotateZ(0deg); }
+  .ipad-device { background: #f1f5f9; border: 12px solid #cbd5e1; border-radius: 40px; display: flex; aspect-ratio: 1.55 / 1; overflow: hidden; box-shadow: -40px 50px 80px rgba(15, 23, 42, 0.1); }
+  .sidebar { width: 28%; background: #ffffff; border-right: 1px solid var(--border); padding: 30px 15px; display: flex; flex-direction: column; }
+  .nav-group { display: flex; flex-direction: column; gap: 6px; margin-top: 30px; }
+  .nav-link { display: flex; align-items: center; padding: 10px 12px; border-radius: 10px; font-size: 0.8rem; color: var(--text-dim); text-decoration: none; }
+  .nav-active { background: var(--accent-blue); color: white; font-weight: 600; }
+  .main-content { flex: 1; padding: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f8fafc; }
+  .card { background: var(--ui-card); border-radius: 16px; padding: 18px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+  .full-row { grid-column: span 2; display: flex; justify-content: space-between; align-items: center; background: none; border: none; padding-bottom: 5px; box-shadow: none; }
+  .chart-box { position: relative; width: 60px; height: 60px; }
+  .ring-svg { transform: rotate(-90deg); shape-rendering: geometricPrecision; }
+  .ring-bg { fill: none; stroke: #e2e8f0; stroke-width: 6; }
+  .ring-circle { fill: none; stroke: var(--accent-blue); stroke-width: 6; stroke-dasharray: 157; stroke-dashoffset: 43.96; stroke-linecap: round; }
+  .upcoming-item { display: flex; align-items: center; justify-content: space-between; background: #f1f5f9; border-radius: 8px; padding: 6px 10px; margin-top: 6px; }
+  .upcoming-tag { font-size: 0.55rem; padding: 2px 5px; border-radius: 4px; background: #dbeafe; color: #1e40af; text-transform: uppercase; font-weight: 700; }
+  .signup-view { display: none; max-width: 480px; margin: 0 auto; padding: 60px 20px; box-sizing: border-box; }
+  .signup-view h2 { font-size: 2rem; font-weight: 800; letter-spacing: -1px; margin: 16px 0 8px; }
+  .signup-view .sub { color: var(--text-dim); margin: 0 0 28px; line-height: 1.5; }
+  .back-link { background: none; border: none; color: var(--accent-blue); font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; padding: 0; }
+  .field { margin-bottom: 20px; }
+  .field label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; }
+  .field input, .field select { width: 100%; box-sizing: border-box; padding: 14px; border: 1.5px solid #cbd5e1; border-radius: 12px; font-family: inherit; font-size: 1rem; background: #fff; color: var(--text-main); }
+  .field input:focus, .field select:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+  .field .err { display: none; color: #dc2626; font-size: 0.85rem; margin-top: 6px; }
+  .field.bad .err { display: block; }
+  .field.bad input, .field.bad select { border-color: #dc2626; }
+  .btn-submit { width: 100%; background: var(--accent-blue); color: #fff; border: none; cursor: pointer; font-family: inherit; padding: 16px; border-radius: 14px; font-weight: 700; font-size: 1.05rem; }
+  .btn-submit:hover { background: #1d4ed8; }
+  .done { display: none; text-align: center; padding: 30px 0; }
+  .done h2 { margin-top: 0; }
+  .app-view { display: none; max-width: 1000px; margin: 0 auto; padding: 30px 20px 60px; box-sizing: border-box; }
+  .app-view .ipad-device { box-shadow: none; border-radius: 28px; position: relative; zoom: 1.15; margin-top: 16px; }
+  .app-view .avatar { display: flex; align-items: center; justify-content: center; background: #dbeafe !important; color: var(--accent-blue); font-weight: 700; font-size: 0.8rem; cursor: pointer; user-select: none; }
+  .acct-menu { position: absolute; top: 62px; right: 22px; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 6px; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12); z-index: 5; }
+  .acct-menu button { display: block; background: none; border: none; font-family: inherit; font-size: 0.8rem; font-weight: 600; color: var(--text-main); padding: 8px 14px; border-radius: 8px; cursor: pointer; white-space: nowrap; }
+  .acct-menu button:hover { background: #f1f5f9; }
+  .acct-panel { position: absolute; inset: 0; background: #fff; padding: 28px 32px; z-index: 6; overflow: auto; }
+  .acct-panel h3 { margin: 14px 0 16px; font-size: 1.2rem; font-weight: 800; }
+  .acct-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+  .acct-row span:first-child { color: var(--text-dim); }
+  .acct-row span:last-child { font-weight: 600; }
+  .btn-link-parent { margin-top: 20px; background: var(--accent-blue); color: #fff; border: none; cursor: pointer; font-family: inherit; padding: 12px 20px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; }
+  .btn-link-parent:hover { background: #1d4ed8; }
+  .btn-login { display: inline-flex; align-items: center; background: #fff; color: var(--text-main); border: 2px solid #cbd5e1; cursor: pointer; font-family: inherit; padding: 12px 28px; border-radius: 14px; font-weight: 700; font-size: 1.05rem; }
+  .btn-login:hover { background: #f1f5f9; }
+  .app-view .avatar { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--accent-blue); box-sizing: border-box; }
+  .app-view button.nav-link { border: none; background: none; font-family: inherit; width: 100%; text-align: left; cursor: pointer; gap: 6px; }
+  .app-view button.nav-link.nav-active { background: var(--accent-blue); color: #fff; }
+  .app-view .main-content { align-content: start; overflow: auto; }
+  .span2 { grid-column: span 2; }
+  .step-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: #f1f5f9; border-radius: 8px; margin-top: 6px; font-size: 0.75rem; font-weight: 600; }
+  .chip { font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-transform: uppercase; }
+  .chip.done { background: #d1fae5; color: #065f46; } .chip.now { background: #dbeafe; color: #1e40af; } .chip.lock { background: #e2e8f0; color: #475569; }
+  .bars { display: flex; align-items: flex-end; gap: 10px; height: 110px; margin-top: 12px; }
+  .bars div { flex: 1; text-align: center; font-size: 0.65rem; color: var(--text-dim); }
+  .bars i { display: block; background: var(--accent-blue); border-radius: 6px 6px 0 0; margin-bottom: 4px; }
+  .bubble { background: #eff6ff; border-radius: 12px; padding: 12px 14px; font-size: 0.8rem; line-height: 1.5; margin-top: 8px; }
+  .lang-select { padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: inherit; font-size: 0.85rem; background: #fff; margin-top: 8px; }
+  .btn-secondary { margin-top: 20px; background: #fff; color: var(--text-main); border: 1.5px solid #cbd5e1; cursor: pointer; font-family: inherit; padding: 10px 18px; border-radius: 10px; font-weight: 600; font-size: 0.85rem; }
+  .su-actions { display: flex; align-items: center; gap: 16px; }
+  .su-actions .btn-submit { flex: 1; }
+  .plans-view { display: none; background: #f8fafc; min-height: 100vh; padding: 48px 20px 64px; box-sizing: border-box; text-align: center; }
+  .plans-logo { font-size: 2.4rem; font-weight: 800; color: #5b5be0; letter-spacing: -1px; }
+  .plans-title { font-size: 2.8rem; font-weight: 800; margin: 6px 0 10px; letter-spacing: -1.5px; line-height: 1.1; }
+  .plans-sub { color: #64748b; font-size: 1.1rem; margin: 0 0 36px; }
+  .wl-box { display: inline-flex; align-items: center; gap: 16px; background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 16px 22px; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05); }
+  .wl-box b { display: block; font-size: 1.7rem; color: #5b5be0; font-weight: 800; line-height: 1.1; text-align: left; }
+  .wl-box span { font-size: 0.75rem; font-weight: 700; color: #64748b; letter-spacing: 0.5px; }
+  .wl-btn { background: #6366f1; color: #fff; border: none; border-radius: 12px; padding: 14px 26px; font-family: inherit; font-weight: 700; font-size: 1rem; cursor: pointer; }
+  .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; max-width: 1100px; margin: 56px auto 0; align-items: center; text-align: left; }
+  .plan { background: #fff; border-radius: 24px; padding: 32px; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06); position: relative; }
+  .plan.pop { border: 2px solid #3b6fe0; box-shadow: 0 10px 30px rgba(59, 111, 224, 0.18); }
+  .plan-tag { position: absolute; top: 24px; right: 24px; font-size: 0.7rem; font-weight: 800; padding: 5px 12px; border-radius: 999px; letter-spacing: 0.3px; }
+  .lite .plan-tag { background: #dcfce7; color: #166534; } .pop .plan-tag { background: #dbeafe; color: #1e40af; } .full .plan-tag { background: #fee2e2; color: #991b1b; }
+  .plan-name { font-size: 1.15rem; font-weight: 700; color: #475569; margin: 0; }
+  .plan-price { font-size: 3rem; font-weight: 800; margin: 10px 0 24px; letter-spacing: -1.5px; }
+  .plan-price small { font-size: 1rem; font-weight: 500; color: #64748b; letter-spacing: 0; }
+  .plan ul { list-style: none; margin: 0 0 28px; padding: 0; }
+  .plan li { display: flex; align-items: center; gap: 12px; padding: 7px 0; font-size: 0.95rem; font-weight: 500; }
+  .plan li.off { color: #a3aebf; }
+  .ck { width: 20px; height: 20px; border-radius: 5px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; flex-shrink: 0; }
+  .ck.ok { background: #22c55e; color: #fff; } .ck.no { color: #f08a8a; font-size: 1.1rem; }
+  .plan-btn { width: 100%; border: none; border-radius: 12px; padding: 16px; font-family: inherit; font-weight: 700; font-size: 1.05rem; color: #fff; cursor: pointer; }
+  .lite .plan-btn { background: #52b788; } .pop .plan-btn { background: #4a7fe8; } .full .plan-btn { background: #dc4f4a; }
+  .pay-view { display: none; background: #f8fafc; min-height: 100vh; padding: 48px 20px 64px; box-sizing: border-box; }
+  .pay-wrap { max-width: 920px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  .pay-summary { background: #fff; border-radius: 20px; padding: 28px; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06); }
+  .pay-summary .plans-logo { font-size: 1.4rem; margin-bottom: 18px; }
+  .pay-plan-row { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .pay-plan-row b { font-size: 1.05rem; }
+  .pay-plan-row span { color: var(--text-dim); font-size: 0.85rem; }
+  .pay-total-row { display: flex; justify-content: space-between; padding-top: 16px; font-weight: 800; font-size: 1.2rem; }
+  .pay-card { background: #fff; border-radius: 20px; padding: 28px; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06); }
+  .pay-card h2 { margin: 0 0 20px; font-size: 1.3rem; }
+  .pay-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .btn-pay { width: 100%; background: #16a34a; color: #fff; border: none; cursor: pointer; font-family: inherit; padding: 16px; border-radius: 14px; font-weight: 700; font-size: 1.05rem; margin-top: 6px; }
+  .btn-pay:hover { background: #15803d; }
+  .pay-secure { display: flex; align-items: center; gap: 6px; justify-content: center; color: var(--text-dim); font-size: 0.78rem; margin-top: 14px; }
+  .pay-done { text-align: center; max-width: 480px; margin: 90px auto; }
+  .pay-done .mark { width: 64px; height: 64px; border-radius: 50%; background: #dcfce7; color: #16a34a; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+  @media (max-width: 760px) { .pay-wrap { grid-template-columns: 1fr; } }
+  @media (max-width: 1100px) {
+    .container { flex-direction: column; perspective: none; padding: 20px; }
+    .ipad-wrapper { transform: none !important; min-width: 100%; margin-top: 40px; }
+    .content-left { text-align: center; max-width: 100%; }
+    .feature-item { text-align: left; justify-content: center; }
+    .waitlist-section { align-items: center; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="content-left">
+    <h1><span class="logo-blue">Ari AI</span>Your Personal Learning Assistant</h1>
+    <p class="tagline">Personalized learning, smarter progress tracking, and powerful teaching tools — all in one.</p>
+    <div class="feature-item"><div class="icon-box">🎓</div><div class="feature-text"><h3>Personalized Learning</h3><p>Tailored lessons for every learner.</p></div></div>
+    <div class="feature-item"><div class="icon-box">👥</div><div class="feature-text"><h3>Teacher &amp; Parental Controls</h3><p>Manage and support learning journey.</p></div></div>
+    <div class="feature-item"><div class="icon-box">🌐</div><div class="feature-text"><h3>500+ Languages Supported</h3><p>Break language barriers in education.</p></div></div>
+    <div class="feature-item"><div class="icon-box">📈</div><div class="feature-text"><h3>Progress That Matters</h3><p>Track growth and celebrate wins.</p></div></div>
+    <div class="waitlist-section">
+      <button type="button" class="btn-signup" onclick="showView('signup')">Sign up</button>
+      <button type="button" class="btn-demo" onclick="openApp({email:'demo@ari.ai',child:'Alex',grade:'5th grade',subject:'Math',demo:true})">Try a demo</button>
+      <button type="button" class="btn-login" onclick="showView('login')">Log in</button>
+    </div>
+  </div>
+
+  <div class="ipad-wrapper">
+    <div class="ipad-device">
+      <div class="sidebar">
+        <div style="font-weight:800; font-size:1.1rem; display:flex; align-items:center; gap:8px;"><span style="color:var(--accent-blue)">✦</span> Ari AI</div>
+        <div class="nav-group">
+          <div class="nav-link nav-active">🏠 Dashboard</div>
+          <div class="nav-link">🛤️ Learning Path</div>
+          <div class="nav-link">📊 Progress</div>
+          <div class="nav-link">✉️ Messages</div>
+          <div class="nav-link">⚙️ Settings</div>
+        </div>
+      </div>
+      <div class="main-content">
+        <div class="card full-row">
+          <span class="greet" style="font-weight:600; font-size:0.9rem;">Hi, Alex! 👋</span>
+          <div class="avatar" style="width:30px; height:30px; background:#e2e8f0; border-radius:50%; border:2px solid var(--accent-blue);"></div>
+        </div>
+        <div class="card" style="display:flex; align-items:center; justify-content:space-between;">
+          <div>
+            <p style="font-size:0.7rem; color:var(--text-dim); margin:0;">Overall Progress</p>
+            <h2 style="margin:5px 0; font-size:1.6rem; font-weight:800;">72%</h2>
+          </div>
+          <div class="chart-box">
+            <svg width="60" height="60" class="ring-svg"><circle class="ring-bg" cx="30" cy="30" r="25"/><circle class="ring-circle" cx="30" cy="30" r="25"/></svg>
+          </div>
+        </div>
+        <div class="card">
+          <p style="font-size:0.7rem; color:var(--text-dim); margin:0;">Time Spent</p>
+          <h2 style="margin:5px 0; font-size:1.6rem; font-weight:800;">4.5<span style="font-size:0.8rem; font-weight:400; color:var(--text-dim); margin-left:4px;">hrs</span></h2>
+          <p style="font-size:0.6rem; color:#059669; font-weight:600;">↑ 12% vs last week</p>
+        </div>
+        <div class="card">
+          <p style="font-size:0.7rem; color:var(--text-dim); margin:0;">Today's Focus</p>
+          <h4 style="margin:8px 0; font-size:1rem;">Fractions &amp; Decimals</h4>
+          <div style="height:6px; background:#e2e8f0; border-radius:3px; margin:10px 0; overflow:hidden;"><div style="height:100%; width:75%; background:var(--accent-blue); border-radius:3px;"></div></div>
+          <span style="font-size:0.7rem; color:var(--accent-blue); font-weight:600;">75% Complete</span>
+        </div>
+        <div class="card">
+          <p style="font-size:0.7rem; color:var(--text-dim); margin:0; font-weight:600;">Upcoming</p>
+          <div class="upcoming-item"><span style="font-size:0.65rem; font-weight:600;">Writing Task</span><span class="upcoming-tag">Tue</span></div>
+          <div class="upcoming-item"><span style="font-size:0.65rem; font-weight:600;">Math Quiz</span><span class="upcoming-tag">Fri</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="signup-view" id="signup-view">
+  <button type="button" class="back-link" onclick="showView('home')">&larr; Back</button>
+  <p class="sub" id="su-progress" style="margin:16px 0 0;">Step 1 of 3</p>
+  <div id="su1">
+    <h2>Create your account</h2>
+    <p class="sub">Start with your email and a password.</p>
+    <div class="field" id="f-su-email"><label for="su-email">Email</label><input id="su-email" type="email" placeholder="name@email.com" autocomplete="email"><div class="err">Enter a valid email address.</div></div>
+    <div class="field" id="f-su-pass"><label for="su-pass">Password</label><input id="su-pass" type="password" placeholder="At least 8 characters" autocomplete="new-password"><div class="err">Use at least 8 characters.</div></div>
+    <button type="button" class="btn-submit" onclick="suNext(1)">Continue</button>
+  </div>
+  <div id="su2" style="display:none;">
+    <h2>About your child</h2>
+    <p class="sub">Who will be learning with Ari AI?</p>
+    <div class="field" id="f-su-child"><label for="su-child">Child's name</label><input id="su-child" type="text" placeholder="Alex" autocomplete="off"><div class="err">Enter your child's name.</div></div>
+    <div class="field" id="f-su-grade"><label for="su-grade">Grade</label><select id="su-grade"></select><div class="err">Select a grade.</div></div>
+    <div class="su-actions"><button type="button" class="back-link" onclick="goStep(1)">Back</button><button type="button" class="btn-submit" onclick="suNext(2)">Continue</button></div>
+  </div>
+  <div id="su3" style="display:none;">
+    <h2>What to study</h2>
+    <p class="sub">Pick the subject you want to start with.</p>
+    <div class="field" id="f-su-subject"><label for="su-subject">Subject</label><select id="su-subject"></select><div class="err">Select a subject.</div></div>
+    <div class="su-actions"><button type="button" class="back-link" onclick="goStep(2)">Back</button><button type="button" class="btn-submit" onclick="suFinish()">Finish</button></div>
+  </div>
+</div>
+
+<div class="signup-view" id="login-view">
+  <button type="button" class="back-link" onclick="showView('home')">&larr; Back</button>
+  <h2>Log in</h2>
+  <p class="sub">Welcome back to Ari AI.</p>
+  <div class="field" id="f-li-email"><label for="li-email">Email</label><input id="li-email" type="email" placeholder="name@email.com" autocomplete="email"><div class="err">Enter your email.</div></div>
+  <div class="field" id="f-li-pass"><label for="li-pass">Password</label><input id="li-pass" type="password" autocomplete="current-password"><div class="err">Incorrect email or password.</div></div>
+  <button type="button" class="btn-submit" onclick="doLogin()">Log in</button>
+  <p class="sub" style="margin-top:20px;">No account yet? <button type="button" class="back-link" onclick="goStep(1);showView('signup')">Sign up</button></p>
+</div>
+
+<div class="plans-view" id="plans-view"></div>
+
+<div class="pay-view" id="pay-view"></div>
+
+<div class="app-view" id="app-view">
+  <button type="button" class="back-link" onclick="showView('home')">&larr; Back to home</button>
+  <div id="app-mount"></div>
+</div>
+
+<script>
+var GRADES=['Kindergarten','1st grade','2nd grade','3rd grade','4th grade','5th grade','6th grade','7th grade','8th grade','9th grade','10th grade','11th grade','12th grade'];
+var SUBJECTS=['Math','Reading','Writing','Science','History','Languages'];
+var LANGS={en:'English',es:'Español',fr:'Français',de:'Deutsch',pt:'Português'};
+var I18N={
+en:{dash:'Dashboard',path:'Learning Path',prog:'Progress',msgs:'Messages',sett:'Settings',hi:'Hi, ',overall:'Overall Progress',time:'Time Spent',hrs:'hrs',vs:'↑ 12% vs last week',focus:"Today's Focus",pct:'75% Complete',upc:'Upcoming',writing:'Writing Task',quiz:'Quiz',acct:'Account information',email:'Email',student:'Student name',grade:'Grade',subj:'Subject',link:'Link parental account',back:'← Back to dashboard',lang:'Language',logout:'Log out',progT:'This week',welcome:'Welcome to Ari AI! Ready to learn something new today?',s1:'Basics',s2:'Practice',s3:'Challenge',s4:'Final review',done:'Done',now:'In progress',lock:'Locked',Math:'Math',Reading:'Reading',Writing:'Writing',Science:'Science',History:'History',Languages:'Languages'},
+es:{dash:'Panel',path:'Ruta de aprendizaje',prog:'Progreso',msgs:'Mensajes',sett:'Ajustes',hi:'Hola, ',overall:'Progreso general',time:'Tiempo dedicado',hrs:'h',vs:'↑ 12 % vs semana pasada',focus:'Enfoque de hoy',pct:'75 % completado',upc:'Próximamente',writing:'Tarea de escritura',quiz:'Cuestionario',acct:'Información de la cuenta',email:'Correo electrónico',student:'Nombre del estudiante',grade:'Grado',subj:'Materia',link:'Vincular cuenta de padres',back:'← Volver al panel',lang:'Idioma',logout:'Cerrar sesión',progT:'Esta semana',welcome:'¡Bienvenido a Ari AI! ¿Listo para aprender algo nuevo hoy?',s1:'Conceptos básicos',s2:'Práctica',s3:'Desafío',s4:'Repaso final',done:'Hecho',now:'En curso',lock:'Bloqueado',Math:'Matemáticas',Reading:'Lectura',Writing:'Escritura',Science:'Ciencias',History:'Historia',Languages:'Idiomas'},
+fr:{dash:'Tableau de bord',path:'Parcours',prog:'Progrès',msgs:'Messages',sett:'Paramètres',hi:'Salut, ',overall:'Progression globale',time:'Temps passé',hrs:'h',vs:'↑ 12 % vs semaine dernière',focus:"Objectif du jour",pct:'75 % terminé',upc:'À venir',writing:"Exercice d'écriture",quiz:'Quiz',acct:'Informations du compte',email:'E-mail',student:"Nom de l'élève",grade:'Niveau',subj:'Matière',link:'Lier un compte parent',back:'← Retour au tableau de bord',lang:'Langue',logout:'Se déconnecter',progT:'Cette semaine',welcome:"Bienvenue sur Ari AI ! Prêt à apprendre quelque chose de nouveau aujourd'hui ?",s1:'Les bases',s2:'Entraînement',s3:'Défi',s4:'Révision finale',done:'Terminé',now:'En cours',lock:'Verrouillé',Math:'Maths',Reading:'Lecture',Writing:'Écriture',Science:'Sciences',History:'Histoire',Languages:'Langues'},
+de:{dash:'Übersicht',path:'Lernpfad',prog:'Fortschritt',msgs:'Nachrichten',sett:'Einstellungen',hi:'Hallo, ',overall:'Gesamtfortschritt',time:'Lernzeit',hrs:'Std.',vs:'↑ 12 % ggü. letzter Woche',focus:'Heutiger Fokus',pct:'75 % abgeschlossen',upc:'Demnächst',writing:'Schreibaufgabe',quiz:'Quiz',acct:'Kontoinformationen',email:'E-Mail',student:'Name des Schülers',grade:'Klasse',subj:'Fach',link:'Elternkonto verknüpfen',back:'← Zurück zur Übersicht',lang:'Sprache',logout:'Abmelden',progT:'Diese Woche',welcome:'Willkommen bei Ari AI! Bereit, heute etwas Neues zu lernen?',s1:'Grundlagen',s2:'Üben',s3:'Herausforderung',s4:'Abschlusswiederholung',done:'Erledigt',now:'In Arbeit',lock:'Gesperrt',Math:'Mathe',Reading:'Lesen',Writing:'Schreiben',Science:'Naturwissenschaften',History:'Geschichte',Languages:'Sprachen'},
+pt:{dash:'Painel',path:'Trilha de aprendizado',prog:'Progresso',msgs:'Mensagens',sett:'Configurações',hi:'Olá, ',overall:'Progresso geral',time:'Tempo de estudo',hrs:'h',vs:'↑ 12% vs semana passada',focus:'Foco de hoje',pct:'75% concluído',upc:'Próximos',writing:'Tarefa de escrita',quiz:'Quiz',acct:'Informações da conta',email:'E-mail',student:'Nome do aluno',grade:'Série',subj:'Matéria',link:'Vincular conta dos pais',back:'← Voltar ao painel',lang:'Idioma',logout:'Sair',progT:'Esta semana',welcome:'Bem-vindo ao Ari AI! Pronto para aprender algo novo hoje?',s1:'Noções básicas',s2:'Prática',s3:'Desafio',s4:'Revisão final',done:'Concluído',now:'Em andamento',lock:'Bloqueado',Math:'Matemática',Reading:'Leitura',Writing:'Escrita',Science:'Ciências',History:'História',Languages:'Idiomas'}
+};
+function opts(id,list,ph){var sel=document.getElementById(id);var o=document.createElement('option');o.value='';o.textContent=ph;sel.appendChild(o);list.forEach(function(x){var q=document.createElement('option');q.value=x;q.textContent=x;sel.appendChild(q);});}
+opts('su-grade',GRADES,'Select a grade');
+opts('su-subject',SUBJECTS,'Select a subject');
+
+function showView(v){
+  document.querySelector('.container').style.display=v==='home'?'':'none';
+  ['signup','login','app','plans','pay'].forEach(function(k){document.getElementById(k+'-view').style.display=v===k?'block':'none';});
+  window.scrollTo(0,0);
+}
+function esc(x){return String(x).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function val(id){return document.getElementById(id).value.trim();}
+function flag(id,bad,msg){var f=document.getElementById('f-'+id);f.classList.toggle('bad',bad);if(bad&&msg){f.querySelector('.err').textContent=msg;}return !bad;}
+
+var mem={};
+function loadAcc(){try{return JSON.parse(localStorage.getItem('ari_accounts')||'{}');}catch(e){return mem;}}
+function saveAcc(a){mem=a;try{localStorage.setItem('ari_accounts',JSON.stringify(a));}catch(e){}}
+async function hp(x){try{var b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(x));return Array.from(new Uint8Array(b)).map(function(n){return n.toString(16).padStart(2,'0');}).join('');}catch(e){return x;}}
+
+var draft={};
+function goStep(n){
+  [1,2,3].forEach(function(k){document.getElementById('su'+k).style.display=k===n?'':'none';});
+  document.getElementById('su-progress').textContent='Step '+n+' of 3';
+}
+function suNext(n){
+  if(n===1){
+    var e=val('su-email').toLowerCase(),pw=document.getElementById('su-pass').value;
+    var ok=flag('su-email',!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e),'Enter a valid email address.');
+    ok=flag('su-pass',pw.length<8)&&ok;
+    if(ok&&loadAcc()[e]){flag('su-email',true,'An account with this email already exists.');ok=false;}
+    if(!ok)return;
+    draft.email=e;draft.pass=pw;goStep(2);
+  } else {
+    var c=val('su-child'),g=document.getElementById('su-grade').value;
+    var ok2=flag('su-child',!c);
+    ok2=flag('su-grade',!g)&&ok2;
+    if(!ok2)return;
+    draft.child=c;draft.grade=g;goStep(3);
+  }
+}
+async function suFinish(){
+  var sub=document.getElementById('su-subject').value;
+  if(!flag('su-subject',!sub))return;
+  var acc=loadAcc();
+  acc[draft.email]={pass:await hp(draft.pass),child:draft.child,grade:draft.grade,subject:sub};
+  saveAcc(acc);
+  var u={email:draft.email,child:draft.child,grade:draft.grade,subject:sub};
+  draft={};
+  ['su-email','su-pass','su-child','su-grade','su-subject'].forEach(function(id){document.getElementById(id).value='';});
+  goStep(1);
+  pendingUser=u;
+  showPlans();
+}
+async function doLogin(){
+  var e=val('li-email').toLowerCase(),pw=document.getElementById('li-pass').value;
+  var a=loadAcc()[e];
+  if(!a||a.pass!==await hp(pw)){flag('li-pass',true);return;}
+  flag('li-pass',false);
+  document.getElementById('li-pass').value='';
+  openApp({email:e,child:a.child,grade:a.grade,subject:a.subject});
+}
+
+var pendingUser=null;
+var FEATS=['All Subjects','Q&A Chat Mode','Progress Tracking','Image Generation','Save Chat Session','Parental Controls','Teacher Controls','Learning Path Creation','Fully Customizable'];
+var PLANS=[{name:'Basic',price:'8.99',tag:'LITE',cls:'lite',btn:'Get Started',n:2},{name:'Plus',price:'11.99',tag:'POPULAR',cls:'pop',btn:'Select Premium',n:6},{name:'Next Gen',price:'20.99',tag:'FULL POWER',cls:'full',btn:'Upgrade to Pro',n:9}];
+function showPlans(){
+  var cards=PLANS.map(function(pl){
+    var items=FEATS.map(function(f,i){
+      var on=i<pl.n;
+      return '<li class="'+(on?'':'off')+'"><span class="ck '+(on?'ok">\u2713':'no">\u2715')+'</span>'+esc(f)+'</li>';
+    }).join('');
+    return '<div class="plan '+pl.cls+'"><span class="plan-tag">'+pl.tag+'</span><p class="plan-name">'+pl.name+'</p><div class="plan-price">$'+pl.price+'<small>/mo</small></div><ul>'+items+'</ul><button type="button" class="plan-btn">'+pl.btn+'</button></div>';
+  }).join('');
+  document.getElementById('plans-view').innerHTML='<div class="plans-logo">Ari AI</div><h1 class="plans-title">Ready to start?</h1><p class="plans-sub">Elevate your learning experience with our flexible plans.</p><div class="wl-box"><div><b>5,006</b><span>ON WAITLIST</span></div><button type="button" class="wl-btn">Join Waitlist</button></div><div class="plans-grid">'+cards+'</div>';
+  showView('plans');
+}
+document.getElementById('plans-view').addEventListener('click',function(e){
+  var btn=e.target.closest('.plan-btn');
+  if(btn&&pendingUser){var idx=Array.prototype.indexOf.call(document.querySelectorAll('.plan-btn'),btn);showPay(PLANS[idx]);}
+});
+var chosenPlan=null;
+function fmtCard(v){v=v.replace(/\D/g,'').slice(0,16);return v.replace(/(.{4})/g,'$1 ').trim();}
+function fmtExp(v){v=v.replace(/\D/g,'').slice(0,4);return v.length>2?v.slice(0,2)+' / '+v.slice(2):v;}
+function showPay(pl){
+  chosenPlan=pl;
+  document.getElementById('pay-view').innerHTML=
+    '<div class="pay-wrap">'
+    +'<div class="pay-summary"><div class="plans-logo">Ari AI</div>'
+    +'<div class="pay-plan-row"><div><b>'+esc(pl.name)+' plan</b><br><span>Billed monthly</span></div><b>$'+pl.price+'</b></div>'
+    +'<div class="pay-total-row"><span>Due today</span><span>$'+pl.price+'</span></div></div>'
+    +'<div class="pay-card">'
+    +'<button type="button" class="back-link" id="pay-back" style="margin-bottom:14px;">&larr; Back to plans</button>'
+    +'<h2>Payment details</h2>'
+    +'<div class="field" id="f-pay-name"><label>Name on card</label><input id="pay-name" type="text" placeholder="Jane Doe" autocomplete="cc-name"><div class="err">Enter the name on your card.</div></div>'
+    +'<div class="field" id="f-pay-num"><label>Card number</label><input id="pay-num" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" autocomplete="cc-number" maxlength="19"><div class="err">Enter a valid 16-digit card number.</div></div>'
+    +'<div class="pay-row2">'
+    +'<div class="field" id="f-pay-exp"><label>Expiry</label><input id="pay-exp" type="text" inputmode="numeric" placeholder="MM / YY" autocomplete="cc-exp" maxlength="7"><div class="err">Enter a valid expiry date.</div></div>'
+    +'<div class="field" id="f-pay-cvc"><label>CVC</label><input id="pay-cvc" type="text" inputmode="numeric" placeholder="123" autocomplete="cc-csc" maxlength="4"><div class="err">Enter a valid CVC.</div></div>'
+    +'</div>'
+    +'<div class="field" id="f-pay-zip"><label>Billing ZIP code</label><input id="pay-zip" type="text" inputmode="numeric" placeholder="94103" autocomplete="postal-code" maxlength="10"><div class="err">Enter a valid ZIP code.</div></div>'
+    +'<button type="button" class="btn-pay" id="pay-submit">Pay $'+pl.price+'</button>'
+    +'<div class="pay-secure">\uD83D\uDD12 Payments are encrypted and secure</div>'
+    +'</div></div>';
+  var num=document.getElementById('pay-num'),exp=document.getElementById('pay-exp');
+  num.addEventListener('input',function(){num.value=fmtCard(num.value);});
+  exp.addEventListener('input',function(){exp.value=fmtExp(exp.value);});
+  document.getElementById('pay-back').addEventListener('click',function(){showPlans();});
+  document.getElementById('pay-submit').addEventListener('click',submitPay);
+  showView('pay');
+}
+function submitPay(){
+  var name=val('pay-name'),num=val('pay-num').replace(/\s/g,''),exp=val('pay-exp'),cvc=val('pay-cvc'),zip=val('pay-zip');
+  var ok=flag('pay-name',!name);
+  ok=flag('pay-num',num.length<15||num.length>16||!/^\d+$/.test(num))&&ok;
+  var expOk=/^\d{2} \/ \d{2}$/.test(exp)&&(+exp.slice(0,2))>=1&&(+exp.slice(0,2))<=12;
+  ok=flag('pay-exp',!expOk)&&ok;
+  ok=flag('pay-cvc',cvc.length<3)&&ok;
+  ok=flag('pay-zip',zip.length<3)&&ok;
+  if(!ok)return;
+  document.getElementById('pay-view').innerHTML='<div class="pay-done"><div class="mark">\u2713</div><h2>Payment successful</h2><p class="sub">You\'re on the '+esc(chosenPlan.name)+' plan. Taking you to your dashboard...</p></div>';
+  setTimeout(function(){openApp(pendingUser);},1400);
+}
+var user={},st={tab:'dash',lang:'en',menu:false,panel:false},dev=null;
+function openApp(u){
+  user=u;st={tab:'dash',lang:'en',menu:false,panel:false};
+  var mount=document.getElementById('app-mount');
+  mount.innerHTML='';
+  dev=document.createElement('div');
+  dev.className='ipad-device';
+  dev.addEventListener('click',function(e){
+    var t=e.target,nv=t.closest('[data-tab]');
+    if(nv){st.tab=nv.getAttribute('data-tab');st.menu=false;st.panel=false;draw();return;}
+    if(t.closest('.avatar')){st.menu=!st.menu;draw();return;}
+    if(t.closest('[data-act="acct"]')){st.menu=false;st.panel=true;draw();return;}
+    if(t.closest('[data-act="close"]')){st.panel=false;draw();return;}
+    if(t.closest('[data-act="logout"]')){showView('home');}
+  });
+  dev.addEventListener('keydown',function(e){
+    if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('avatar')){e.preventDefault();st.menu=!st.menu;draw();}
+  });
+  dev.addEventListener('change',function(e){if(e.target.id==='lang-sel'){st.lang=e.target.value;draw();}});
+  mount.appendChild(dev);
+  draw();
+  showView('app');
+}
+function draw(){
+  var T=I18N[st.lang],n=user.child||'';
+  var tabs=[['dash','🏠',T.dash],['path','🛤️',T.path],['prog','📊',T.prog],['msgs','✉️',T.msgs],['sett','⚙️',T.sett]];
+  var nav=tabs.map(function(x){return '<button type="button" class="nav-link'+(st.tab===x[0]?' nav-active':'')+'" data-tab="'+x[0]+'">'+x[1]+' '+esc(x[2])+'</button>';}).join('');
+  var head='<div class="card full-row"><span style="font-weight:600;font-size:0.9rem;">'+esc(T.hi+n)+'! 👋</span><div class="avatar" role="button" tabindex="0" aria-label="Account menu">'+esc(n.charAt(0).toUpperCase())+'</div></div>';
+  var subj=T[user.subject]||user.subject,body='';
+  function day(i){return new Date(2024,0,1+i).toLocaleDateString(st.lang,{weekday:'short'});}
+  if(st.tab==='dash'){
+    body='<div class="card" style="display:flex;align-items:center;justify-content:space-between;"><div><p style="font-size:0.7rem;color:var(--text-dim);margin:0;">'+esc(T.overall)+'</p><h2 style="margin:5px 0;font-size:1.6rem;font-weight:800;">72%</h2></div><div class="chart-box"><svg width="60" height="60" class="ring-svg"><circle class="ring-bg" cx="30" cy="30" r="25"/><circle class="ring-circle" cx="30" cy="30" r="25"/></svg></div></div>'
+    +'<div class="card"><p style="font-size:0.7rem;color:var(--text-dim);margin:0;">'+esc(T.time)+'</p><h2 style="margin:5px 0;font-size:1.6rem;font-weight:800;">4.5<span style="font-size:0.8rem;font-weight:400;color:var(--text-dim);margin-left:4px;">'+esc(T.hrs)+'</span></h2><p style="font-size:0.6rem;color:#059669;font-weight:600;">'+esc(T.vs)+'</p></div>'
+    +'<div class="card"><p style="font-size:0.7rem;color:var(--text-dim);margin:0;">'+esc(T.focus)+'</p><h4 style="margin:8px 0;font-size:1rem;">'+esc(subj)+'</h4><div style="height:6px;background:#e2e8f0;border-radius:3px;margin:10px 0;overflow:hidden;"><div style="height:100%;width:75%;background:var(--accent-blue);border-radius:3px;"></div></div><span style="font-size:0.7rem;color:var(--accent-blue);font-weight:600;">'+esc(T.pct)+'</span></div>'
+    +'<div class="card"><p style="font-size:0.7rem;color:var(--text-dim);margin:0;font-weight:600;">'+esc(T.upc)+'</p><div class="upcoming-item"><span style="font-size:0.65rem;font-weight:600;">'+esc(T.writing)+'</span><span class="upcoming-tag">'+esc(day(1))+'</span></div><div class="upcoming-item"><span style="font-size:0.65rem;font-weight:600;">'+esc(T.quiz)+'</span><span class="upcoming-tag">'+esc(day(4))+'</span></div></div>';
+  } else if(st.tab==='path'){
+    var steps=[[T.s1,'done'],[T.s2,'now'],[T.s3,'lock'],[T.s4,'lock']];
+    body='<div class="card span2"><h4 style="margin:0 0 6px;font-size:1rem;">'+esc(subj)+'</h4>'+steps.map(function(x,i){return '<div class="step-row"><span>'+(i+1)+'. '+esc(x[0])+'</span><span class="chip '+x[1]+'">'+esc(T[x[1]])+'</span></div>';}).join('')+'</div>';
+  } else if(st.tab==='prog'){
+    var h=[40,65,50,80,72];
+    body='<div class="card span2"><h4 style="margin:0;font-size:1rem;">'+esc(T.progT)+'</h4><div class="bars">'+h.map(function(v,i){return '<div><i style="height:'+v+'px"></i>'+esc(day(i))+'</div>';}).join('')+'</div></div>';
+  } else if(st.tab==='msgs'){
+    body='<div class="card span2"><h4 style="margin:0;font-size:1rem;">Ari AI</h4><div class="bubble">'+esc(T.welcome)+'</div></div>';
+  } else {
+    body='<div class="card span2"><h4 style="margin:0;font-size:1rem;">'+esc(T.sett)+'</h4><p style="font-size:0.75rem;color:var(--text-dim);margin:14px 0 0;">'+esc(T.lang)+'</p><select id="lang-sel" class="lang-select">'+Object.keys(LANGS).map(function(k){return '<option value="'+k+'"'+(k===st.lang?' selected':'')+'>'+LANGS[k]+'</option>';}).join('')+'</select><div><button type="button" class="btn-secondary" data-act="logout">'+esc(T.logout)+'</button></div></div>';
+  }
+  var menu=st.menu?'<div class="acct-menu"><button type="button" data-act="acct">'+esc(T.acct)+'</button></div>':'';
+  var panel='';
+  if(st.panel){
+    var rows=[[T.email,user.email],[T.student,user.child],[T.grade,user.grade],[T.subj,subj]].map(function(r){return '<div class="acct-row"><span>'+esc(r[0])+'</span><span>'+esc(r[1])+'</span></div>';}).join('');
+    panel='<div class="acct-panel"><button type="button" class="back-link" data-act="close">'+esc(T.back)+'</button><h3>'+esc(T.acct)+'</h3>'+rows+'<button type="button" class="btn-link-parent" data-act="link">'+esc(T.link)+'</button></div>';
+  }
+  dev.innerHTML='<div class="sidebar"><div style="font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:8px;"><span style="color:var(--accent-blue)">✦</span> Ari AI</div><div class="nav-group">'+nav+'</div></div><div class="main-content">'+head+body+'</div>'+menu+panel;
+}
+</script>
+</body>
+</html>
